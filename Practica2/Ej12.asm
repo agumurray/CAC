@@ -2,12 +2,18 @@ TIMER EQU 10H
 PIC EQU 20H
 EOI EQU 20H
 N_CLK EQU 10
+
+
 ORG 40
 IP_CLK DW RUT_CLK
+
+
 ORG 1000H
 SEG DB 30H
 SEG_NEXT DB 30H
 FIN DB ?
+
+
 ORG 3000H
 RUT_CLK: PUSH AX
 INC SEG_NEXT
@@ -25,6 +31,8 @@ MOV AL, EOI
 OUT PIC, AL
 POP AX
 IRET
+
+
 ORG 2000H
 CLI
 MOV AL, 0FDH
@@ -43,5 +51,8 @@ END
 
 /*
 a) Cómo funciona el TIMER y cuándo emite una interrupción a la CPU.
+El timer es un contador de eventos que realiza una cuenta ascendente de los pulsos de la señal aplicada a su entrada INT, restaurandose el valor inicial de cuenta al final de la misma.
 b) La función que cumplen sus registros, la dirección de cada uno y cómo se programan.
+    -COMP(11H): Registro de comparacion, que determina el modulo de la cuenta del TIMER.
+    -CONT(10H): Registro contador, que muestra la cuenta de los pulsos de la senial aplicada a la entrada INT del periferico. La coincidencia de su valor con el del registro anterior provoca la activacion de la salida OUT (interrupcion)
 */
